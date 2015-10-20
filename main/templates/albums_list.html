@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Albums List</h2>
+    </header>
+    <div style='text-align:center'>
+        <form action="/albums_list/" method='GET'>
+        <input name='album_title' type='text' size='15' placeholder='Search for an album' style="width: 30%; font-size:20px; text-align:center; margin:0 auto">
+        </form>
+    </div>
+    <section class="wrapper style5">
+        <div class="inner">
+            <a href='/albums_create/' class='button' style='margin:10px; margin-top:0px; text-align:center'>Create album</a></br>
+            <div>
+            {%for object in albums %}
+                <img src='{{object.album_image_file}}' alt='{{object.album_image_file}}' style='width:10%; height:10%; margin:10px'>
+                <a href ="/albums_detail/{{object.pk}}/">{{object.album_title}}</a></br>
+            {%endfor%}
+            </div>
+
+        </div>
+    </section>
+</article>
+{%endblock body%}

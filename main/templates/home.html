@@ -1,0 +1,117 @@
+{%load staticfiles%}
+<!DOCTYPE HTML>
+<!--
+    Spectral by HTML5 UP
+    html5up.net | @n33co
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <title>Spectral by HTML5 UP</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--[if lte IE 8]><script src="{% static 'assets/js/ie/html5shiv.js' %}"></script><![endif]-->
+        <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+        <link rel='stylesheet' href="{% static 'assets/css/home.css' %}"/>
+        
+        <!--[if lte IE 8]><link rel="stylesheet" href="{% static 'assets/css/ie8.css' %}" /><![endif]-->
+        <!--[if lte IE 9]><link rel="stylesheet" href="{% static 'assets/css/ie9.css' %}" /><![endif]-->
+    </head>
+    <body class="landing">
+
+        <!-- Page Wrapper -->
+            <div id="page-wrapper">
+
+                <!-- Header -->
+                    <header id="header" class="alt">
+                        <div><h1><a href="/home/"> MusicApp</a></h1></div>
+                        {% if request.user.is_authenticated %}
+                        <div style='margin-left: 25px; margin-top:40px'><h6>Logged in as {{ request.user.username }}</h6></div>
+                        {%else%}
+                        <div style='margin-left: 25px; margin-top:40px'><h6>Logged out</h6></div>
+                        {% endif %}
+                        <nav id="nav">
+                            <ul>
+                                <li class="special">
+                                    <a href="#menu" class="menuToggle"><span style='color:#505393'>Menu</span></a>
+                                    <div id="menu">
+                                        <ul>
+                                            <li><a href="/home/">&nbsp;Home</a></li>
+                                            <li><a href="/genres_list/">&nbsp;Genres</a></li>
+                                            <li><a href="/artists_list/">&nbsp;Artists</a></li>
+                                            <li><a href="/albums_list">&nbsp;Albums</a></li>
+                                            <li><a href="/signup/">&nbsp;Sign Up</a></li>
+                                            <li><a href="/login/">&nbsp;Log In</a></li>
+                                            <li><a href="/logout/">&nbsp;Log Out</a></li>
+
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                    </header>
+
+                <!-- Banner -->
+                    <section id="banner">
+                        <div class="inner">
+                            <h2 style='color:black'>MusicApp</h2>
+                            <p style='color:black'>Another way to access artists, albums, and tracks<br />
+                            <ul class="actions">
+                                <li><a href="/login/" class="button special">Login</a></li>
+                                <li><a href="/signup/" class="button special">Sign Up</a></li>
+
+                            </ul>
+                        </div>
+                        <a href="#one" class="more scrolly" style='color:black'>Learn More</a>
+                    </section>
+                    <!-- Three -->
+                    <section id="one" class="wrapper style3 special">
+                        <div class="inner">
+                            <header class="major">
+                                <h2>Welcome to the MusicApp</h2>
+                                <p>MusicApp is the site to search thousands of artists, see their albums, and view their tracks</p>
+                            </header>
+                            <ul class="features">
+                                <li class="icon fa-headphones" id='features1'>
+                                    <p><a href='/genres_list/'><h3>Genres</h3></a>
+                                    List of Genres</p>
+                                </li>
+                                <li class="icon fa-odnoklassniki" id='features2'>
+                                    <p><a href='/artists_list/'><h3>Artists</h3></a>
+                                    List of Artists</p>
+                                </li>
+                                <li class="icon fa-music" id = 'features3'>
+                                    <p><a href = '/albums_list'/><h3>Albums</h3></a>
+                                    List of Albums</p>
+                                </li>
+                                <li class="icon fa-microphone" id = 'features4'>
+                                    <p><a href = '/tracks_list/'><h3>Tracks</h3></a>
+                                    List of Tracks</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                <!-- Footer -->
+                    <footer id="footer">
+                        <ul class="icons">
+                            <li><a href="/contact/" class="icon fa-envelope-o"> Contact Us</a></li>
+                        </ul>
+                        <ul class="copyright">
+                            <li>&copy; MusicApp</li><li>Coding Campus</li><li>October 19 2015</li>
+                        </ul>
+                    </footer>
+
+            </div>
+
+        <!-- Scripts -->
+            <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+            <script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+            <script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
+            <script src="{% static 'assets/js/skel.min.js' %}"></script>
+            <script src="{% static 'assets/js/util.js' %}"></script>
+            <!--[if lte IE 8]><script src="{% static 'assets/js/ie/respond.min.js' %}"></script><![endif]-->
+            <script src="{% static 'assets/js/main.js' %}"></script>
+
+    </body>
+</html>

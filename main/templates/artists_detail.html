@@ -1,0 +1,55 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Artist Detail: </br><em>{{object.artist_name}}</em></h2>
+    </header>
+    <section class="wrapper style5">
+        <div class="inner">
+            <h2>{{object.artist_name}}</h2>
+            <img src='{{object.artist_image_file}}' alt='{{object.artist_name}}' style='width:50%; height:50%; margin:10px'></br>
+
+            Artist ID: {{object.artist_id}}</br>
+            Artist Handle: {{object.artist_handle}}</br>
+            Artist URL: {{object.artist_url}}</br>
+
+            Artist Bio: {{object.artist_bio}}</br>
+            Artist Members: {{object.artist_members}}</br>
+            {%if object.artist_website != None%}
+            Artist Website: <a href ='{{object.artist_website}}'>{{object.artist_website}}</a></br>
+            {%endif%}
+            {%if object.artist_wikipedia_page %}
+            Artist Wiki Page: <a href='{{object.artist_wikipedia_page}}'>{{object.artist_wikipedia_page}}</a></br>
+            {%endif%}
+            {%if object.artist_donation_url != None %}
+                Artist Donation URL: <a href='{{object.artist_donation_url}}'>{{object.artist_donation_url}}</a></br>
+            {%endif%}
+            Artist Contact: {{object.artist_contact}}</br>
+            Artist Location: {{object.artist_location}}</br>
+            Artist Active Year Begin: {{object.artist_active_year_begin}}</br>
+            Artist Year End: {{object.artist_active_year_end}}</br>
+            Artist Related Projects: {{object.artist_related_projects}}</br>
+            Artist Associated Labels: {{object.artist_associated_labels}}</br>
+            Artist Comments: {{object.artist_comments}}</br>
+            Artist Favorites: {{object.artist_favorites}}</br>
+            Artist Date Created: {{object.artist_date_created}}</br>
+            Artist Flattr Name: {{object.artist_flattr_name}}</br>
+            Artist Paypal Name: {{object.artist_paypal_name}}</br>
+            Artist Latitude: {{object.artist_latitude}}</br>
+            Artist Longitude: {{object.artist_longitude}}</br>
+
+            {% if object.albums_set.all%}
+                Albums:
+                {%for alb in object.albums_set.all%}
+                     <a href='/albums_detail/{{alb.pk}}'>{{alb}}</a>
+                {%endfor%}
+            {%endif%}</br>
+            {% if request.user.is_authenticated %}
+            <a href='/artist_edit/' class='button'>Edit Artist</a></br>
+            <a href='/artist_delete/' class='button'>Delete Artist</a>
+            {%endif%}
+        </div>
+    </section>
+</article>
+{%endblock body%}

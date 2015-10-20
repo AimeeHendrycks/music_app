@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<article id="main">
+    <header>
+        <h2>Login</h2>
+    </header>
+        <section class="wrapper style5">
+        <div class='inner'>
+            <form action='/login/' method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type='submit' value='Login' /></br></br>
+                *{{outcome}}*
+            </form>
+        </div>
+    </section>
+</article>
+
+{% endblock %}

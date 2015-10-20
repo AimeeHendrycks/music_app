@@ -1,0 +1,16 @@
+{%extends "base.html"%}
+{%load crispy_forms_tags %}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Contact</h2>
+    </header>
+    <section class="wrapper style5">
+        <div class="inner">
+                {% crispy form %}
+        </div>
+    <p> {{message}} </p>
+    </section>
+</article>
+    
+{%endblock body%}

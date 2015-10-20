@@ -1,0 +1,69 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Track Detail:</br><em>{{object.track_title}}</em></h2>
+    </header>
+    <section class="wrapper style5">
+        <div class="inner">
+            <h2>Track Title: {{object.track_title}}</h2>
+            {%if object.track_image_file != None %}
+                <img src = '{{object.track_image_file}}' alt='{{object.track_image_file}}' style='width:50%; height:50%; margin:10px'></br>
+            {%endif%}
+            Track ID: {{object.track_id}}</br>
+            {%if object.track_url != None %}
+                Track URL:<a href='{{object.track_url}}'>{{object.track_url}}</a></br>
+            {%endif%}
+            Artist Name: <a href='/artists_detail/{{object.artist.pk}}/'>{{object.artist.artist_name}}</a></br>
+            {%if object.artist_url != None%}
+                Artist URL: <a href = '{{object.artist.artist_url}}'>{{object.artist.artist_url}}</a></br>
+            {%endif%}
+            {% if object.artist.artist_website != None%}
+                Artist Website: <a href = '{{object.artist.artist_website}}'>{{object.artist.artist_website}}></a></br>
+            {%endif%}
+            {%if object.album.album_title != None %}
+                Album Title: <a href='/albums_detail/{{object.album.pk}}'>{{object.album.album_title}}</a></br>
+            {%endif%}
+            {% if object.album.album_url != None %}
+                Album URL: <a href='{{object.album.album_url}}'>{{object.album.album_url}}</a></br>
+            {%endif%}
+            License Title: {{object.license_title}}</br>
+            {%if object.license_url != None %}
+                License URL: <a href ='{{object.license_url}}'>{{object.license_url}}</a></br>
+            {%endif%}
+            Track Language Code: {{object.track_language_code}}</br>
+            Track Duration: {{object.track_duration}}</br>
+            Track Number: {{object.track_number}}</br>
+            Track Disc Number: {{object.track_disc_number}}</br>
+            Track Explicit: {{object.track_explicit}}</br>
+            Track Explicit Notes: {{object.track_explicit_notes}}</br>
+            Track Copyright C: {{object.track_copyright_c}}</br>
+            Track Copyright P: {{object.track_copyright_p}}</br>
+            Track Composer: {{object.track_composer}}</br>
+            Track Lyricist: {{object.track_lyricist}}</br>
+            Track Publisher: {{object.track_publisher}}</br>
+            Track Instrumental: {{object.track_instrumental}}</br>
+            Track Information:{{object.track_information}}</br>
+            Track Date Recorded: {{object.track_date_recorded}}</br>
+            Track Comments: {{object.track_comments}}</br>
+            Track Favorites: {{object.track_favorites}}</br>
+            Track Listens: {{object.track_listens}}</br>
+            Track Interest: {{object.track_interest}}</br>
+            Track Bit Rate: {{object.track_bit_rate}}</br>
+            Track Date Created: {{object.track_date_created}}</br>
+            Track File: {{object.track_file}}</br>
+            <!--License Image File: {{object.license_image_file}}</br>
+            License Image File Large: {{object.license_image_file_large}}</br>-->
+            License Parent ID: {{object.license_parent_id}}</br>
+            <img src = '{{object.license_image_file_large}}' alt='{{object.license_image_file_large}}' style='width:10%; height:10%; margin:10px'></br>
+            </br>
+            {% if request.user.is_authenticated %}
+            <a href='/track_edit/' class='button'>Edit Track</a></br>
+            <a href='/track_delete/' class='button'>Delete Track</a>
+            {%endif%}
+        </div>
+    </section>
+</article>
+{%endblock body%}
+

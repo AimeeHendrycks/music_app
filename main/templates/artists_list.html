@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Artists List</h2>
+    </header>
+    <div style='text-align:center'>
+        <form action="/artists_list/" method='GET'>
+        <input name='artist_name' type='text' size='15' placeholder='Search for an artist' style="width: 30%; font-size:20px; text-align:center; margin: 0 auto">
+        </form>
+    </div>
+    <section class="wrapper style5">
+        <div class="inner">
+        <a href='/artists_create/' class='button' style='margin:10px; margin-top:0px; text-align:center'>Create artist</a></br>
+        <div>
+            {%for object in artists %}
+                <img src='{{object.artist_image_file}}' alt='{{object.artist_name}}' style='width:10%; height:10%; margin:10px'>
+                <a href ="/artists_detail/{{object.pk}}/">{{object.artist_name}}</a></br>
+            {%endfor%}
+        </div>
+        </div>
+    </section>
+</article>
+{%endblock body%}

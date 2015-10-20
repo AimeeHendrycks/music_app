@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Tracks List</h2>
+    </header>
+    <div>
+        <form action="/tracks_list/" method='GET'>
+        <input name='track_title' type='text' size='15' placeholder='Search for a track' style="width:30%; font-size:20px; text-align:center; margin: auto">
+        </form>
+    </div>
+    <section class="wrapper style5">
+        <div class="inner">
+            <a href='/tracks_create/' class='button' style='margin:10px; margin-top:0px; text-align:center'>Create track</a></br>
+
+            {%for object in tracks %}
+            <img src = '{{object.track_image_file}}' alt='{{object.track_image_file}}' style='width:10%; height:10%; margin:10px'>
+            <a href ="/tracks_detail/{{object.pk}}/">{{object.track_title}}</a></br>
+            {%endfor%}
+
+        </div>
+    </section>
+</article>
+{%endblock body%}

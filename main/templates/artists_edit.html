@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header><h2>Edit Artist:</br>{{object.artist_name}}</h2></header>
+    <section class="wrapper style5">
+    <div class='inner'>
+    <form action='' method='POST'>
+    
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type='submit' value='Edit' />
+    </form>
+    </div>
+    </section>
+    </article>
+{%endblock body%}

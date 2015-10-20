@@ -1,0 +1,25 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Genres List</h2>
+    </header>
+    <div style='text-align:center'>
+        <form action="/genres_list/" method='GET'>
+        <input name='genre_title' type='text' size='15' placeholder='Search for a genre' style="width: 30%; font-size:20px; text-align:center; margin: 0 auto">
+        </form>
+    </div>
+    <section class="wrapper style5">
+        <div class="inner">
+            <a href='/genres_create/' class='button' style='text-align:center'>Create genre</a></br>
+
+            {%for object in genres %}
+                <a href ="/genres_detail/{{object.pk}}/">{{object.genre_title}}</br>
+            {%endfor%}
+
+        </div>
+    </section>
+</article>
+{%endblock body%}
+

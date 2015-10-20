@@ -1,0 +1,21 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Genre Detail:</br><em>{{object.genre_title}}</em></h2>
+    </header>
+    <section class="wrapper style5">
+        <div class="inner" style='text-align:center'>
+            <h2>{{object.genre_title}}</h2>
+            Genre Handle: {{object.genre_handle}}</br>
+            Genre ID: {{object.genre_id}}</br>
+            Genre Parent ID:{{object.genre_parent_id}}</br></br>
+            {% if request.user.is_authenticated %}
+            <a href='/genre_edit/' class='button'>Edit Genre</a></br>
+            <a href='/genre_delete/' class='button'>Delete Genre</a>
+            {%endif%}
+        </div>
+    </section>
+</article>
+{%endblock body%}

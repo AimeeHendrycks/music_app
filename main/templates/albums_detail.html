@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+{%load staticfiles%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Album Detail: </br><em>{{object.album_title}}</em></h2>
+    </header>
+    <section class="wrapper style5">
+        <div class="inner">
+            <h2>{{object.album_title}}</h2>
+            <img src='{{object.album_image_file}}' alt='{{object.album_image_file}}' style='width:50%; height:50%; margin:10px'></br>
+            Album ID: {{object.album_id}}</br>
+            Album Handle: {{object.album_handle}}</br>
+            {%if object.album_url != None %}
+                Album URL: <a href='{{object.album_url}}'>{{object.album_url}}</a></br>
+            {%endif%}
+            Album Type: {{object.album_type}}</br>
+            {%if object.artist.artist_name != None%}
+                Artist Name: <a href='/artists_detail/{{object.artist.pk}}/'>{{object.artist.artist_name}}</a></br>
+            {%endif%}
+            {%if object.artist.artist_url != None %}
+                Artist URL: <a href='{{object.artist.artist_url}}'>{{object.artist.artist_url}}</a></br>
+            {%endif%}
+            Album Producer: {{object.album_producer}}</br>
+            Album Engineer: {{object.album_engineer}}</br>
+            Album Information: {{object.album_information}}</br>
+            Album Date Released: {{object.album_date_released}}</br>
+            Album Comments: {{object.album_comments}}</br>
+            Album Favorites: {{object.album_favorites}}</br>
+            Album Tracks: {{object.album_tracks}}</br>
+            Album Listens: {{object.album_listens}}</br>
+            Album Date Created: {{object.album_date_created}}</br>
+            {% if object.tracks_set.all%}
+                Tracks:
+                {%for track in object.tracks_set.all%}
+                     <a href='/tracks_detail/{{track.pk}}'>{{track}}</a>
+                {%endfor%}
+            {%endif%}</br>
+            {% if request.user.is_authenticated %}
+            <a href='/album_edit/' class='button'>Edit Album</a></br>
+            <a href='/album_delete/' class='button'>Delete Album</a>
+            {%endif%}
+        </div>
+    </section>
+</article>
+{%endblock body%}

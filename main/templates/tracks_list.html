@@ -13,12 +13,21 @@
     <section class="wrapper style5">
         <div class="inner">
             <a href='/tracks_create/' class='button' style='margin:10px; margin-top:0px; text-align:center'>Create track</a></br>
+            {%for album in albums%}
+                {% if album.tracks_set.all.count != 0%}
+                    Artist: <a href='/artist_detail/{{album.artist.pk}}'> {{album.artist}}</a></br>
+                    Album: <a href='/album_detail/{{alum.pk}}'> {{album.album_title}}</a></br>
+                    Tracks:
+                    <ul>
+                    {%for track in album.tracks_set.all%}
 
-            {%for object in tracks %}
-            <img src = '{{object.track_image_file}}' alt='{{object.track_image_file}}' style='width:10%; height:10%; margin:10px'>
-            <a href ="/tracks_detail/{{object.pk}}/">{{object.track_title}}</a></br>
+                        {%if track in tracks%}
+                        <a href= '/tracks_detail/{{track.pk}}' style='color:#505393'>{{track}}</a></br>
+                        {%endif%}
+                    {%endfor%}
+                {%endif%}
+                </ul>
             {%endfor%}
-
         </div>
     </section>
 </article>

@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from main.forms import ContactForm, UserSignUp, UserLogin
+
 from django.core.mail import send_mail
 from django.conf import settings
 from main.models import Genres, Artists, Albums, Tracks
@@ -24,6 +25,7 @@ def genres_list(request):
         genres = Genres.objects.all()
 
     context['genres'] = genres
+    
     redirect('/genres_list/')
 
     return render_to_response('genres_list.html', context, context_instance=RequestContext(request))
@@ -101,6 +103,7 @@ def albums_list(request):
         albums = Albums.objects.all()
 
     context['albums'] = albums
+    context['artists'] = Artists.objects.all()
     redirect('/albums_list/')
 
     return render_to_response('albums_list.html', context, context_instance=RequestContext(request))
@@ -128,11 +131,6 @@ class AlbumDeleteView(DeleteView):
     template_name = 'albums_delete.html'
     success_url = '/albums_list/'
 
-class TrackListView(ListView):
-    model = Tracks
-    template_name = 'tracks_list.html'
-    #context_object_name = 'genres'
-
 def tracks_list(request):
     context = {}
     track = request.GET.get('track_title', None)
@@ -143,6 +141,8 @@ def tracks_list(request):
         tracks = Tracks.objects.all()
 
     context['tracks'] = tracks
+    context['artists'] = Artists.objects.all()
+    context['albums'] = Albums.objects.all()
     redirect('/tracks_list/')
 
     return render_to_response('tracks_list.html', context, context_instance=RequestContext(request))
@@ -282,108 +282,4 @@ def logout_view(request):
     logout(request)
 
     return HttpResponseRedirect('/login/')
-
-
-#Edje's Code as reference
-
-# def signup(request):
-
-#     # Create New User ----------------------------------------
-
-#     context = {}
-
-#     form = UserSignUp()
-
-#     context['form_signup'] = form
-
-#     if request.method == 'POST':
-#         form = UserSignUp(request.POST)
-#         if form.is_valid():
-#             print form.cleaned_data
-
-#             first_name = form.cleaned_data['first_name']
-#             last_name = form.cleaned_data['last_name']
-#             user_name = form.cleaned_data['username']
-#             email = form.cleaned_data['email']
-#             password = form.cleaned_data['password']
-
-#             try:
-#                 new_user = User.objects.create_user(user_name,
-#                                                     email,
-#                                                     password
-#                                                     )
-#                 new_user.first_name = first_name
-#                 new_user.last_name = last_name
-#                 context['valid'] = "Thank You For Signing Up!"
-#                 new_user.save()
-
-#                 auth_user = authenticate(username=user_name,
-#                                          password=password,
-#                                          )
-#                 login(request, auth_user)
-
-#                 return HttpResponseRedirect('/state_list/')
-
-#             except IntegrityError, e:
-#                 context['valid'] = "A User With That Name Already Exists"
-
-#         else:
-#             context['valid'] = form.errors
-
-#     if request.method == 'GET':
-#         context['valid'] = "Please Sign Up!"
-
-#     # Login existing user ----------------------------------------
-
-#     context['form_login'] = UserLogin()
-
-#     username = request.POST.get('username', None)
-#     password = request.POST.get('password', None)
-
-#     if username is not None or password is not None:
-
-#         auth_user = authenticate(username=username, password=password)
-
-#         context['auth_user'] = auth_user
-
-#         if auth_user is not None and auth_user.is_active:
-#             login(request, auth_user)
-#             return render_to_response('login_success.html', context,
-#                                       context_instance=RequestContext(request))
-#         else:
-#             context['login_fail'] = "Log in failed. Please try again."
-#             # return render_to_response('login_fail.html', context,
-#             #                           context_instance=RequestContext(request))
-
-#     return render_to_response('signup.html', context,
-#                               context_instance=RequestContext(request))
-
-
-# # I originally had separate login and signup pages
-# # def login_view(request):
-
-# #     # Login function ----------------------------------------
-
-# #     context = {}
-
-# #     context['form_login'] = UserLogin()
-
-# #     username = request.POST.get('username', None)
-# #     password = request.POST.get('password', None)
-
-# #     auth_user = authenticate(username=username, password=password)
-
-# #     if auth_user is not None:
-# #         if auth_user.is_active:
-# #             login(request, auth_user)
-# #             context['valid'] = "Login Successful"
-
-# #             return HttpResponseRedirect('/state_list/')
-# #         else:
-# #             context['valid'] = "Invalid User"
-# #     else:
-# #         context['valid'] = "Please enter a User Name"
-
-# #     return render_to_response('signup.html', context,
-# #                               context_instance=RequestContext(request))
 

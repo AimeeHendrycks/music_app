@@ -8,7 +8,11 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", 'project.settings')
 
 from main.models import Artists
 
-response = requests.get('https://freemusicarchive.org/api/get/artists.json?api_key=60BLHNQCAOUFPIBZ&limit=8000')
+import django
+from django.conf import settings
+
+param_dict = {'api_key': settings.FMAKEY, 'limit':1000}
+response = requests.get('https://freemusicarchive.org/api/get/artists.json', params=param_dict)
 try:
     response_dict = response.json()
 

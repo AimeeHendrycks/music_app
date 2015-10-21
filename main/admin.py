@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import Genres, Albums, Artists, Tracks
+from main.models import Genres, Albums, Artists, Tracks, CustomUser
 
 # Register your models here.
 class GenresAdmin(admin.ModelAdmin):
@@ -20,3 +20,5 @@ admin.site.register(Genres, GenresAdmin)
 admin.site.register(Albums, AlbumsAdmin)
 admin.site.register(Artists, ArtistsAdmin)
 admin.site.register(Tracks, TracksAdmin)
+admin.site.register(CustomUser)
+#do not register CustomUserManager

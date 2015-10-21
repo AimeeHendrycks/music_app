@@ -110,6 +110,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'  
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
 
+AUTH_USER_MODEL = 'main.CustomUser'  
+#API KEY
+FMAKEY = '60BLHNQCAOUFPIBZ'
+
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT= 587
 

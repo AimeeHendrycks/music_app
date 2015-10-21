@@ -24,12 +24,13 @@
 
                 <!-- Header -->
                     <header id="header" class="alt">
-                        <div><h1><a href="/home/"> MusicApp</a></h1></div>
+                        <div><h1><a href="/home/"> MusicApp</a></h1>
                         {% if request.user.is_authenticated %}
-                        <div style='margin-left: 25px; margin-top:40px'><h6>Logged in as {{ request.user.username }}</h6></div>
+                        <div style='margin-left: 190px; margin-top:18px'><h6>Logged in as {{ request.user.username }}</h6></div>
                         {%else%}
-                        <div style='margin-left: 25px; margin-top:40px'><h6>Logged out</h6></div>
-                        {% endif %}
+                        <div style='margin-left: 190px; margin-top:18px'><h6>Logged out</h6></div>                        
+                        {% endif %}  </div>
+                        
                         <nav id="nav">
                             <ul>
                                 <li class="special">

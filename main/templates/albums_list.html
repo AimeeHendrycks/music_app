@@ -14,9 +14,21 @@
         <div class="inner">
             <a href='/albums_create/' class='button' style='margin:10px; margin-top:0px; text-align:center'>Create album</a></br>
             <div>
-            {%for object in albums %}
-                <img src='{{object.album_image_file}}' alt='{{object.album_image_file}}' style='width:10%; height:10%; margin:10px'>
-                <a href ="/albums_detail/{{object.pk}}/">{{object.album_title}}</a></br>
+            {%for artist in artists%}
+                {% if artist.albums_set.all.count != 0%}
+                    Artist: <a href='/artists_detail/{{artist.pk}}'> {{artist}}</a></br>
+                    {%if artist.albums_set.all.count == 1%}
+                        Album:
+                    {%else%}
+                        Albums:
+                    {%endif%}
+                    <ul>
+                    {%for album in artist.albums_set.all%}
+                        {%if album in albums%}
+                        <a href='/albums_detail/{{album.pk}}' style='color:#505393'> {{album.album_title}}</a></br>                        {%endif%}
+                    {%endfor%}
+                {%endif%}
+                </ul>
             {%endfor%}
             </div>
 

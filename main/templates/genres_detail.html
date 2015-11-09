@@ -12,8 +12,8 @@
             Genre ID: {{object.genre_id}}</br>
             Genre Parent ID:{{object.genre_parent_id}}</br></br>
             {% if request.user.is_authenticated %}
-            <a href='/genre_edit/' class='button'>Edit Genre</a></br>
-            <a href='/genre_delete/' class='button'>Delete Genre</a>
+            <a href='/genres_edit/{{object.pk}}/' class='button'>Edit Genre</a></br>
+            <a href='/genres_delete/{{object.pk}}/' class='button'>Delete Genre</a>
             {%endif%}
         </div>
     </section>

@@ -1,0 +1,9 @@
+<ul class="artists">
+  {% for object in object_list %}
+    <li>
+      <a href="/artists_detail/{{object.artist.pk}}">
+        {{ object }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>

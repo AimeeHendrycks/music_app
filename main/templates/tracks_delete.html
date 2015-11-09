@@ -1,8 +1,17 @@
 {%extends 'base.html'%}
 {%load staticfiles%}
-<form action='' method='POST'>
+{%block body%}
+<article id="main">
+    <header><h2>Delete Track</h2></header>
+    <section class="wrapper style5">
+    <div class='inner'>
+    <form action='' method='POST'>
     {%csrf_token%}
-    <h2> You are about to delete the following track: {{object.track_title}}</h2>
+    <h2> You are about to delete the following track:</br> {{object.track_title}}</h2>
     {{form.as_p}}
     <input type='submit' value='Delete' />
 </form>
+    </div>
+    </section>
+    </article>
+{%endblock body%}

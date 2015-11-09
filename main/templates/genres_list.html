@@ -7,17 +7,73 @@
     </header>
     <div style='text-align:center'>
         <form action="/genres_list/" method='GET'>
-        <input name='genre_title' type='text' size='15' placeholder='Search for a genre' style="width: 30%; font-size:20px; text-align:center; margin: 0 auto">
+        <input name='search' type='text' size='15' placeholder='Search' style="width: 30%; font-size:17px; text-align:center; margin: 0 auto; color:#fff">
         </form>
     </div>
     <section class="wrapper style5">
         <div class="inner">
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}">previous</a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                {% endif %}
+         
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+         
+                {% if page_obj.has_next %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.next_page_number }}">next</a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                {% endif %}
+                
+            </span>
+        </div>      
+            {% if request.user.is_authenticated %}
             <a href='/genres_create/' class='button' style='text-align:center'>Create genre</a></br>
-
-            {%for object in genres %}
-                <a href ="/genres_detail/{{object.pk}}/">{{object.genre_title}}</br>
-            {%endfor%}
-
+            {%endif%}
+            
+            <!--Content-->
+            <div class='row'>  
+                {%for genre in object_list%}
+                <section>
+                <div class='col-md-12' style="width:300px; height:50px; margin-left:20px; margin-top:20px">
+                    <a href ="/genres_detail/{{genre.pk}}/"><h5>{{genre.genre_title}}</h5></br></a>
+                </div>
+                </section>
+                {%endfor%}
+            </div>
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}">previous</a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                {% endif %}
+         
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+         
+                {% if page_obj.has_next %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.next_page_number }}">next</a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                {% endif %}
+                
+            </span>
+        </div>      
         </div>
     </section>
 </article>

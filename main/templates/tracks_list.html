@@ -7,28 +7,81 @@
     </header>
     <div>
         <form action="/tracks_list/" method='GET'>
-        <input name='track_title' type='text' size='15' placeholder='Search for a track' style="width:30%; font-size:20px; text-align:center; margin: auto">
+        <input name='search' type='text' size='15' placeholder='Search' style="width:30%; font-size:17px; text-align:center; margin: auto; color:#fff">
         </form>
     </div>
     <section class="wrapper style5">
         <div class="inner">
-            <a href='/tracks_create/' class='button' style='margin:10px; margin-top:0px; text-align:center'>Create track</a></br>
-            {%for album in albums%}
-                {% if album.tracks_set.all.count != 0%}
-                    Artist: <a href='/artist_detail/{{album.artist.pk}}'> {{album.artist}}</a></br>
-                    Album: <a href='/album_detail/{{alum.pk}}'> {{album.album_title}}</a></br>
-                    Tracks:
-                    <ul>
-                    {%for track in album.tracks_set.all%}
-
-                        {%if track in tracks%}
-                        <a href= '/tracks_detail/{{track.pk}}' style='color:#505393'>{{track}}</a></br>
-                        {%endif%}
-                    {%endfor%}
+        <!--PAGINATION-->
+            <div class="pagination">
+                <span class="page-links">
+                {% if page_obj.has_previous %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}">previous</a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                {% endif %}
+         
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+         
+                {% if page_obj.has_next %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.next_page_number }}">next</a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                {% endif %}
+            
+                </span>
+            </div>
+            <!--Create button-->
+                {% if request.user.is_authenticated %}
+                    <a href='/tracks_create/' class='button' style='margin:10px; margin-top:0px; text-align:center'>Create track</a></br>
                 {%endif%}
-                </ul>
-            {%endfor%}
+
+            <!--Content-->
+            <div class='row'>  
+                {%for track in object_list%}
+                <section>
+                <div class='col-md-12' style="width:400px; height:250px; margin-left:20px; margin-top:20px">
+                <a href = '/tracks_detail/{{track.pk}}'><h5>{{track.track_title}}</h5></a>
+                    <p><span class="image left"><img src="{{track.track_image_file}}" alt="{{track.track_title}}" style='width:100px; height:100px'/></span>Artist: <a href='/artists_detail/{{track.artist.pk}}'>{{track.artist.artist_name}}</a></br>Album: <a href='/albums_detail/{{track.album.pk}}'>{{track.album.album_title}}</a></br></p>
+                </div>
+                </section>
+                {%endfor%}
+            </div>
+
+            <!--PAGINATION-->
+            <div class="pagination">
+                <span class="page-links">
+                {% if page_obj.has_previous %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.previous_page_number }}">previous</a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                {% endif %}
+         
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+         
+                {% if page_obj.has_next %}
+                    {% if 'search' in request.GET %}
+                        <a href="{{request.path}}?search={{request.GET.search}}&page={{ page_obj.next_page_number }}">next</a>
+                    {% else %}
+                        <a href="{{request.path}}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                {% endif %}
+            
+                </span>
+                </div>
         </div>
+
+                
     </section>
 </article>
 {%endblock body%}

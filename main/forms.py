@@ -1,10 +1,10 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, HTML, Layout, Div
+from crispy_forms.bootstrap import FieldWithButtons, StrictButton
 from crispy_forms.bootstrap import FormActions
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm  
 from main.models import CustomUser
-
 
 class ContactForm(forms.Form):
     name = forms.CharField(required=True)
@@ -25,56 +25,50 @@ class ContactForm(forms.Form):
 
         self.helper.layout.append(
             FormActions(
-                Submit('submit', 'Submit', css_class='btn-primary', style='margin-top:30px')
-                )
+                Submit('submit', 'Submit', css_class='btn-primary', style='margin-top:30px'),
+                ),
             )
 
-class UserLogin(forms.Form):  
-    username = forms.CharField(required=True)
+class UserLogin(forms.Form):
+    email = forms.CharField(required=True)
     password = forms.CharField(required=True, widget=forms.PasswordInput())
 
-    # def __init__(self, *args, **kwargs):
-    #     super(UserLogin, self).__init__(*args, **kwargs)
-    #     self.helper = FormHelper(self)
-    #     self.helper.form_action = '/login/'
-    #     self.helper.layout = Layout(
-    #                 'username',
-    #                 'password',
-    #                 )
 
 class UserSignUp(forms.Form): 
     username = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
+    email = forms.CharField(required=True)
     password = forms.CharField(widget=forms.PasswordInput(), required=True)
 
-    # def __init__(self, *args, **kwargs):
-    #     super(UserSignUp, self).__init__(*args, **kwargs)
-    #     self.helper = FormHelper(self)
-    #     self.helper.form_action = '/signup/'
-    #     self.helper.layout = Layout(
-    #                 'username',
-    #                 'email',
-    #                 'password',
-    #                 )
-    #     self.helper.layout.append(
-    #         FormActions(
-    #             Submit('submit', 'Create New User', css_class="btn-primary")
-    #             )
-    #         )
+
 class CustomUserCreationForm(UserCreationForm):  
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-        del self.fields['username']
 
     class Meta:
         model = CustomUser
-        fields = ("email")
+        fields = ['email']
+        exclude = ['username']
 
 
 class CustomUserChangeForm(UserChangeForm):  
     def __init__(self, *args, **kwargs):
         super(CustomUserChangeForm, self).__init__(*args, **kwargs)
-        del self.fields['username']
 
     class Meta:
         model = CustomUser
+        fields = []
+
+
+# class ArtistSearchForm(forms.Form):
+#     name=forms.CharField(required=False)
+#     # <form action="/artists_list/" method='GET'>
+#     #     <input name='artist_name' type='text' size='15' placeholder='Search for an artist' style="width: 30%; font-size:20px; text-align:center; margin: 0 auto">
+#     #     </form>
+
+#     def __init__(self, *args, **kwargs):
+#         super(ArtistSearchForm, self).__init__(*args, **kwargs)
+#         self.helper = FormHelper(self)
+#         self.helper.form_action = '/artists_list/'
+#         self.helper.layout.append(
+#             FieldWithButtons('field_name', StrictButton("Go!"))
+#             )

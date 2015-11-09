@@ -10,7 +10,7 @@ class AlbumsAdmin(admin.ModelAdmin):
     search_fields = ['album_title']
 
 class ArtistsAdmin(admin.ModelAdmin):
-    search_fields = ['artist_title']
+    search_fields = ['artist_name']
 
 class TracksAdmin(admin.ModelAdmin):
     list_display = ('track_title', 'album', 'artist')

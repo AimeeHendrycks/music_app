@@ -3297,6 +3297,11 @@
 					}
 
 				}
+		#header a.login_info {
+			float:right;
+			
+			margin-right: 150px;
+		}
 
 		#header nav {
 			height: inherit;
@@ -3343,8 +3348,21 @@
 								vertical-align: top;
 								width: 2em;
 							}
+							
+
+							@media screen and (max-width: 1280px) {
+
+								#header a.login_info {
+									margin-right: 120px;
+								}
+
+							}
 
 							@media screen and (max-width: 736px) {
+
+								#header a.login_info {
+									margin-right: 70px;
+								}
 
 								#header nav > ul > li > a.menuToggle {
 									padding: 0 1.5em;

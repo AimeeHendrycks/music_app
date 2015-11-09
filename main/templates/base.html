@@ -22,13 +22,18 @@
 
                 <!-- Header -->
                     <header id="header">
-                        <div><h1><a href="/home/"> MusicApp</a></h1></div>
-                        {% if request.user.is_authenticated %}
-                        <div style='margin-left: 25px; margin-top:40px'><h6>Logged in as {{ request.user.username }}</h6></div>
-                        {%else%}
-                        <div style='margin-left: 190px; margin-top:20px'><h6>Logged out</h6></div>
+                        <h1><a href="/home/"> MusicApp</a></h1>
+                        {% if user.is_anonymous %}
+                            
+                                <a href="/login/" class='login_info' style='border-bottom:none; margin-top:17px'><h6>login</h6></a>
+                            
+                        {% else %}
+                            
+                                <a href="/logout/" class='login_info' style='border-bottom:none; margin-top:17px'><h6>{{ user }} logout</h6></a>
+
+                            
                         {% endif %}
-                        <nav id="nav">
+                        <nav id="nav" style='background:#fff'>
                             <ul>
                                 <li class="special">
                                     <a href="#menu" class="menuToggle"><span style='color:#505393'>Menu</span></a>

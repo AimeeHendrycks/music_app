@@ -1,173 +1,22 @@
 from django.shortcuts import render, render_to_response, redirect
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import UpdateView
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, FormMixin
 from main.forms import ContactForm, UserSignUp, UserLogin
-
+from main.models import CustomUser
 from django.core.mail import send_mail
 from django.conf import settings
 from main.models import Genres, Artists, Albums, Tracks
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.db import IntegrityError
+
 # Create your views here.
 
-def genres_list(request):
-    context = {}
-    genre = request.GET.get('genre_title', None)
-    print genre
-    if genre != None:
-        genres = Genres.objects.filter(genre_title__icontains=genre)
-    else:
-        genres = Genres.objects.all()
-
-    context['genres'] = genres
-    
-    redirect('/genres_list/')
-
-    return render_to_response('genres_list.html', context, context_instance=RequestContext(request))
-    
-
-
-class GenreDetailView(DetailView):
-    model=Genres
-    slug_field = 'genre_handle'
-    template_name = 'genres_detail.html'
-
-
-class GenreCreateView(CreateView):
-    model = Genres
-    fields = '__all__'
-    template_name = 'genres_create.html'
-    success_url = '/genres_list/'
-
-class GenreEditView(UpdateView):
-    model = Genres
-    fields = '__all__'
-    template_name = 'genres_edit.html'
-    success_url = '/genres_list/'
-
-class GenreDeleteView(DeleteView):
-    model = Genres
-    fields = '__all__'
-    template_name = 'genres_delete.html'
-    success_url = '/genres_list/'
-
-def artists_list(request):
-    context = {}
-    artist = request.GET.get('artist_name', None)
-    print artist
-    if artist != None:
-        artists = Artists.objects.filter(artist_name__icontains=artist)
-    else:
-        artists = Artists.objects.all()
-
-    context['artists'] = artists
-    redirect('/artists_list/')
-
-    return render_to_response('artists_list.html', context, context_instance=RequestContext(request))
-
-class ArtistDetailView(DetailView):
-    model=Artists
-    slug_field = 'artist_handle'
-    template_name = 'artists_detail.html'
-
-class ArtistCreateView(CreateView):
-    model = Artists
-    fields = '__all__'
-    template_name = 'artists_create.html'
-    success_url = '/artists_list/'
-
-class ArtistEditView(UpdateView):
-    model = Artists
-    fields = '__all__'
-    template_name = 'artists_edit.html'
-    success_url = '/artists_list/'
-
-class ArtistDeleteView(DeleteView):
-    model = Artists
-    fields = '__all__'
-    template_name = 'artists_delete.html'
-    success_url = '/artists_list/'
-
-def albums_list(request):
-    context = {}
-    album = request.GET.get('album_title', None)
-    print album
-    if album != None:
-        albums = Albums.objects.filter(album_title__icontains=album)
-    else:
-        albums = Albums.objects.all()
-
-    context['albums'] = albums
-    context['artists'] = Artists.objects.all()
-    redirect('/albums_list/')
-
-    return render_to_response('albums_list.html', context, context_instance=RequestContext(request))
-
-class AlbumDetailView(DetailView):
-    model=Albums
-    slug_field = 'album_handle'
-    template_name = 'albums_detail.html'
-
-class AlbumCreateView(CreateView):
-    model = Albums
-    fields = '__all__'
-    template_name = 'albums_create.html'
-    success_url = '/albums_list/'
-
-class AlbumEditView(UpdateView):
-    model = Albums
-    fields = '__all__'
-    template_name = 'albums_edit.html'
-    success_url = '/albums_list/'
-
-class AlbumDeleteView(DeleteView):
-    model = Albums
-    fields = '__all__'
-    template_name = 'albums_delete.html'
-    success_url = '/albums_list/'
-
-def tracks_list(request):
-    context = {}
-    track = request.GET.get('track_title', None)
-    print track
-    if track != None:
-        tracks = Tracks.objects.filter(track_title__icontains=track)
-    else:
-        tracks = Tracks.objects.all()
-
-    context['tracks'] = tracks
-    context['artists'] = Artists.objects.all()
-    context['albums'] = Albums.objects.all()
-    redirect('/tracks_list/')
-
-    return render_to_response('tracks_list.html', context, context_instance=RequestContext(request))
-
-class TrackDetailView(DetailView):
-    model=Tracks
-    template_name = 'tracks_detail.html'
-
-class TrackCreateView(CreateView):
-    model = Tracks
-    fields = '__all__'
-    template_name = 'tracks_create.html'
-    success_url = '/tracks_list/'
-
-class TrackEditView(UpdateView):
-    model = Tracks
-    fields = '__all__'
-    template_name = 'tracks_edit.html'
-    success_url = '/tracks_list/'
-
-class TrackDeleteView(DeleteView):
-    model = Tracks
-    fields = '__all__'
-    template_name = 'tracks_delete.html'
-    success_url = '/tracks_list/'
 
 def base(request):
     context = {}
@@ -218,28 +67,21 @@ def signup(request):
     if request.method == 'POST':
         form = UserSignUp(request.POST)
         if form.is_valid():
-            print form.cleaned_data
-            username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             
             try:
-                new_user = User.objects.create_user(username, email, password)
-                context['valid'] = "Thank You For Signing Up!"
-                new_user.save()
-                auth_user = authenticate(username=username, password=password)
+                new_user = CustomUser.objects.create_user(email, password)
+                                
+                auth_user = authenticate(email=email, password=password)
                 login(request, auth_user)
                 return HttpResponseRedirect('/home/')
 
-            except Exception, e:
+            except IntegrityError, e:
                 context['valid'] = "A User With That Name Already Exists"
 
         else:
             context['valid'] = form.errors
-
-    elif request.method == 'GET':
-        print 'GET'
-        context['valid'] = "Please Sign Up!"
 
     return render_to_response('signup.html', context, context_instance=RequestContext(request))
 
@@ -250,28 +92,23 @@ def login_view(request):
     context['form'] = form
 
     if request.method == 'POST':
-        print 'POST'
-        context['form'] = UserLogin(request.POST)
-        username = request.POST.get('username', None)
-        print username
-        password = request.POST.get('password', None)
-        print password
+        form = UserLogin(request.POST)
+        context['form'] = form
+        print "validating"
+        if form.is_valid():
+            print "am i valid?"
 
-        if username is not None and password is not None:
-            print 'if worked'
-            auth_user = authenticate(username=username, password=password)
-            print 'auth worked'
-            context['auth_user'] = auth_user
-            if auth_user is not None and auth_user.is_active:
-                print 'second if worked'
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            auth_user = authenticate(email=email, password=password)
+            if auth_user is not None:
                 login(request, auth_user)
-                print 'login worked'
-                context['outcome'] = "Login Successful"
                 return HttpResponseRedirect('/home/')
             else:
-                context['outcome'] = "Invalid User"
+                context['valid'] = "Invalid User"
         else:
-            context['outcome'] = "Please enter a User Name and/or Password"
+            context['valid'] = "Please enter an Email and Password"
     else:
         print 'GET'
 
@@ -283,3 +120,159 @@ def logout_view(request):
 
     return HttpResponseRedirect('/login/')
 
+class GenreListView(ListView):
+    template_name = 'genres_list.html'
+    paginate_by =20
+    def get_queryset(self):
+        if 'search' in self.request.GET:
+            object_list = Genres.objects.filter(genre_title__icontains=self.request.GET['search'])
+        else:
+            object_list = Genres.objects.all()
+        print object_list
+        return object_list
+
+
+class GenreDetailView(DetailView):
+    model=Genres
+    slug_field = 'genre_handle'
+    template_name = 'genres_detail.html'
+
+class GenreCreateView(CreateView):
+    model = Genres
+    fields = '__all__'
+    template_name = 'genres_create.html'
+    success_url = '/genres_list/'
+
+class GenreEditView(UpdateView):
+    model = Genres
+    fields = '__all__'
+    template_name = 'genres_edit.html'
+    success_url = '/genres_list/'
+
+class GenreDeleteView(DeleteView):
+    model = Genres
+    fields = '__all__'
+    template_name = 'genres_delete.html'
+    success_url = '/genres_list/'
+
+
+class ArtistListView(ListView):
+    template_name = 'artists_list.html'
+    paginate_by =20
+    def get_queryset(self):
+        if 'search' in self.request.GET:
+            object_list = Artists.objects.filter(artist_name__icontains=self.request.GET['search'])
+        else:
+            object_list = Artists.objects.all()
+        print object_list
+        return object_list
+
+class ArtistDetailView(DetailView):
+    model=Artists
+    slug_field = 'artist_handle'
+    template_name = 'artists_detail.html'
+
+class ArtistCreateView(CreateView):
+    model = Artists
+    fields = '__all__'
+    template_name = 'artists_create.html'
+    success_url = '/artists_list/'
+
+class ArtistEditView(UpdateView):
+    model = Artists
+    fields = '__all__'
+    template_name = 'artists_edit.html'
+    success_url = '/artists_list/'
+
+class ArtistDeleteView(DeleteView):
+    model = Artists
+    fields = '__all__'
+    template_name = 'artists_delete.html'
+    success_url = '/artists_list/'
+
+
+class AlbumListView(ListView):
+    template_name = 'albums_list.html'
+    paginate_by =20
+    def get_queryset(self):
+        if 'search' in self.request.GET:
+            object_list = Albums.objects.filter(album_title__icontains=self.request.GET['search'])
+        else:
+            object_list = Albums.objects.all()
+        print object_list
+        return object_list
+
+class AlbumDetailView(DetailView):
+    model=Albums
+    slug_field = 'album_handle'
+    template_name = 'albums_detail.html'
+
+class AlbumCreateView(CreateView):
+    model = Albums
+    fields = '__all__'
+    template_name = 'albums_create.html'
+    success_url = '/albums_list/'
+
+class AlbumEditView(UpdateView):
+    model = Albums
+    fields = '__all__'
+    template_name = 'albums_edit.html'
+    success_url = '/albums_list/'
+
+class AlbumDeleteView(DeleteView):
+    model = Albums
+    fields = '__all__'
+    template_name = 'albums_delete.html'
+    success_url = '/albums_list/'
+
+class TrackListView(ListView):
+    template_name = 'tracks_list.html'
+    paginate_by =20
+    def get_queryset(self):
+        if 'search' in self.request.GET:
+            object_list = Tracks.objects.filter(track_title__icontains=self.request.GET['search'])
+        else:
+            object_list = Tracks.objects.all()
+        print object_list
+        return object_list
+
+class TrackDetailView(DetailView):
+    model=Tracks
+    template_name = 'tracks_detail.html'
+
+class TrackCreateView(CreateView):
+    model = Tracks
+    fields = '__all__'
+    template_name = 'tracks_create.html'
+    success_url = '/tracks_list/'
+
+class TrackEditView(UpdateView):
+    model = Tracks
+    fields = '__all__'
+    template_name = 'tracks_edit.html'
+    success_url = '/tracks_list/'
+
+class TrackDeleteView(DeleteView):
+    model = Tracks
+    fields = '__all__'
+    template_name = 'tracks_delete.html'
+    success_url = '/tracks_list/'
+
+#tracks
+def json_response(request):
+    search_string = request.GET.get('search', '')
+    objects = Tracks.objects.filter(track_title__icontains=search_string) 
+    object_list = []
+    for obj in objects:
+        object_list.append({'track_title':obj.track_title, 'track_image_file': obj.track_image_file})
+
+    return JsonResponse(object_list, safe=False)
+
+def ajax_search(request):
+    context = {}
+
+    return render_to_response('ajax_template.html', context, context_instance=RequestContext(request))
+
+
+
+#{'track_image_file': obj.track_image_file, 'artist': obj.artist.artist_name, 'album':obj.album.album_title}

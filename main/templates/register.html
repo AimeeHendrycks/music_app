@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{%block body%}
+<article id="main">
+    <header>
+        <h2>Register</h2>
+    </header>
+    <section class="wrapper style5">
+        <div class="inner">
+            <form method='POST' action = '/register/'>
+            {%csrf_token%}
+            {{form.email.label_tag}}
+            {{form.email}}
+            </br>
+            </br>
+            {{form.password1.label_tag}}
+            {{form.password1}}
+            </br>
+            </br>
+            {{form.password2.label_tag}}
+            {{form.password2}}
+            </br>
+            </br>
+
+            <input type='submit' value='Register Now'>
+
+            </form>
+
+            {{form.errors}}
+            <pre>
+            </pre>
+        </div>
+    </section>
+</article>
+
+{%endblock body%}

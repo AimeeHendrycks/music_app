@@ -9,36 +9,42 @@
         <div class="inner">
             <h2>{{object.album_title}}</h2>
             <img src='{{object.album_image_file}}' alt='{{object.album_image_file}}' style='width:50%; height:50%; margin:10px'></br>
-            Album ID: {{object.album_id}}</br>
-            Album Handle: {{object.album_handle}}</br>
+            <p>Album ID: <b>{{object.album_id}}</b><p>
+            <p>Album Handle: <b>{{object.album_handle}}</b><p>
             {%if object.album_url != None %}
-                Album URL: <a href='{{object.album_url}}'>{{object.album_url}}</a></br>
+                <p>Album URL: <a href='{{object.album_url}}'><b>{{object.album_url}}</b></a><p>
             {%endif%}
-            Album Type: {{object.album_type}}</br>
+            <p>Album Type: <b>{{object.album_type}}</b><p>
             {%if object.artist.artist_name != None%}
-                Artist Name: <a href='/artists_detail/{{object.artist.pk}}/'>{{object.artist.artist_name}}</a></br>
+                <p>Artist Name: <a href='/artists_detail/{{object.artist.pk}}/'><b>{{object.artist.artist_name}}</b></a><p>
             {%endif%}
             {%if object.artist.artist_url != None %}
-                Artist URL: <a href='{{object.artist.artist_url}}'>{{object.artist.artist_url}}</a></br>
+                <p>Artist URL: <a href='{{object.artist.artist_url}}'><b>{{object.artist.artist_url}}</b></a><p>
             {%endif%}
-            Album Producer: {{object.album_producer}}</br>
-            Album Engineer: {{object.album_engineer}}</br>
-            Album Information: {{object.album_information|safe}}</br>
-            Album Date Released: {{object.album_date_released}}</br>
-            Album Comments: {{object.album_comments}}</br>
-            Album Favorites: {{object.album_favorites}}</br>
-            Album Tracks: {{object.album_tracks}}</br>
-            Album Listens: {{object.album_listens}}</br>
-            Album Date Created: {{object.album_date_created}}</br>
+            {%if object.album_producer != ''%}
+                <p>Album Producer: <b>{{object.album_producer}}</b><p>
+            {%endif%}
+            {%if object.album_engineer != ''%}
+                <p>Album Engineer: <b>{{object.album_engineer}}</b><p>
+            {%endif%}
+            {%if object.album_information != ''%}
+                <p>Album Information: <b>{{object.album_information|safe}}</b><p>
+            {%endif%}
+            <p>Album Date Released: <b>{{object.album_date_released}}</b><p>
+            <p>Album Comments: <b>{{object.album_comments}}</b><p>
+            <p>Album Favorites: <b>{{object.album_favorites}}</b><p>
+            <p>Album Tracks: <b>{{object.album_tracks}}</b><p>
+            <p>Album Listens: <b>{{object.album_listens}}</b><p>
+            <p>Album Date Created: <b>{{object.album_date_created}}</b><p>
             {% if object.tracks_set.all%}
-                Tracks:
+                <p>Tracks:</br>
                 {%for track in object.tracks_set.all%}
-                     <a href='/tracks_detail/{{track.pk}}'>{{track}}</a>
+                     <a href='/tracks_detail/{{track.pk}}'><b>{{track}}</b></a></br>
                 {%endfor%}
-            {%endif%}</br>
+            {%endif%}<p>
             {% if request.user.is_authenticated %}
-            <a href='/album_edit/' class='button'>Edit Album</a></br>
-            <a href='/album_delete/' class='button'>Delete Album</a>
+            <a href='/albums_edit/{{object.pk}}/' class='button'>Edit Album</a></br>
+            <a href='/albums_delete/{{object.pk}}/' class='button'>Delete Album</a>
             {%endif%}
         </div>
     </section>

@@ -23,10 +23,22 @@ from main.forms import CustomUserCreationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import views as auth_views
 
+from django.conf.urls import url
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from main import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^artists/$', views.ArtistList.as_view()),
+    url(r'^artists/(?P<pk>[0-9]+)/$', views.ArtistDetail.as_view()),
+    url(r'^genres/$', views.GenreList.as_view()),
+    url(r'^genres/(?P<pk>[0-9]+)/$', views.GenreDetail.as_view()),
+    url(r'^albums/$', views.AlbumList.as_view()),
+    url(r'^albums/(?P<pk>[0-9]+)/$', views.AlbumDetail.as_view()),
+    url(r'^tracks/$', views.TrackList.as_view()),
+    url(r'^tracks/(?P<pk>[0-9]+)/$', views.TrackDetail.as_view()),
 
     url(r'^json_response/$', views.json_response),
     url(r'^ajax_search/$', views.ajax_search),
@@ -56,7 +68,7 @@ urlpatterns = [
     url(r'^tracks_edit/(?P<pk>\d+)/$', views.TrackEditView.as_view()),
     url(r'^tracks_delete/(?P<pk>\d+)/$', views.TrackDeleteView.as_view()),
 
-    url(r'^home/$', views.home, name='home'),
+    url(r'^$', views.home, name='home'),
     url(r'^accounts/profile/$', views.login_view),
     url(r'^contact/$', views.contact),
     url(r'^login/$', views.login_view),
@@ -72,3 +84,6 @@ urlpatterns = [
                                             success_url='/')),
 
 ]
+
+
+urlpatterns = format_suffix_patterns(urlpatterns)

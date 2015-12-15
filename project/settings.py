@@ -25,7 +25,7 @@ SECRET_KEY = 'nu3%v+&_90se&&gu$!gzab*)=*x^c($wr$v-jij9@ebz+w@&-l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.aimeehendrycks.me', 'localhost', '127.0.0.1']
 
 
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'crispy_forms',
     'main',
+    'rest_framework',
     'social.apps.django_app.default'
 )
 
@@ -119,7 +120,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/main/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'  
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
@@ -136,14 +137,6 @@ SOCIAL_AUTH_USER_MODEL = 'main.CustomUser'
 SOCIAL_AUTH_TWITTER_KEY = 'xwQvYHw0vsjBPGBP26kq4QdaQ' 
 SOCIAL_AUTH_TWITTER_SECRET = 'cpPZNGA5lFHTT7eu1qf0GaN5miwMCKjcpI6VxGE1NN4rJmpZCh'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '1519072575080235'
-SOCIAL_AUTH_FACEBOOK_SECRET = '3d350157c4d8e995dc773fd47f8f07f1'
-
-SOCIAL_AUTH_INSTAGRAM_KEY = 'fe0e17ac91c24522945a3128b42fd412'
-SOCIAL_AUTH_INSTAGRAM_SECRET = 'f8ea14cdac5f4c749e3a789201c83934'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '703031032564-38jpk2tlbqjbf5ub7l9jajgr41qfbrjf.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'cM8q0VzDYzjRSfj_9YTsbiej'
 
 #API KEY
 FMAKEY = '60BLHNQCAOUFPIBZ'

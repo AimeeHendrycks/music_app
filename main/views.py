@@ -14,8 +14,47 @@ from main.models import Genres, Artists, Albums, Tracks
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from main.models import Artists
+from main.serializers import ArtistSerializer, GenreSerializer, AlbumSerializer, TrackSerializer
+from rest_framework import generics
 
 # Create your views here.
+
+class ArtistList(generics.ListCreateAPIView):
+    queryset = Artists.objects.all()
+    serializer_class = ArtistSerializer
+
+
+class ArtistDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Artists.objects.all()
+    serializer_class = ArtistSerializer
+
+class GenreList(generics.ListCreateAPIView):
+    queryset = Genres.objects.all()
+    serializer_class = GenreSerializer
+
+class GenreDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Genres.objects.all()
+    serializer_class = GenreSerializer
+
+class AlbumList(generics.ListCreateAPIView):
+    queryset = Albums.objects.all()
+    serializer_class = AlbumSerializer
+
+
+class AlbumDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Albums.objects.all()
+    serializer_class = AlbumSerializer
+
+
+class TrackList(generics.ListCreateAPIView):
+    queryset = Tracks.objects.all()
+    serializer_class = TrackSerializer
+
+class TrackDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tracks.objects.all()
+    serializer_class = TrackSerializer
+
 
 
 def base(request):
@@ -75,7 +114,7 @@ def signup(request):
                                 
                 auth_user = authenticate(email=email, password=password)
                 login(request, auth_user)
-                return HttpResponseRedirect('/home/')
+                return HttpResponseRedirect('/')
 
             except IntegrityError, e:
                 context['valid'] = "A User With That Name Already Exists"
@@ -104,7 +143,7 @@ def login_view(request):
             auth_user = authenticate(email=email, password=password)
             if auth_user is not None:
                 login(request, auth_user)
-                return HttpResponseRedirect('/home/')
+                return HttpResponseRedirect('/')
             else:
                 context['valid'] = "Invalid User"
         else:
